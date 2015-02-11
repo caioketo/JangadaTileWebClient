@@ -63,9 +63,19 @@ message RequestMovementPacket {
 
 message AreaDescriptionPacket {
   required int32 areaId = 1;
-  required PlayerDescription player = 2;
-  repeated PlayerDescription players = 3;
-  repeated CreatureDescription creatures = 4;
+  required int32 width = 2;
+  required int32 height = 3;
+  required int32 startX = 4;
+  required int32 startY = 5;
+  repeated TileDescription tiles = 6;
+  required PlayerDescription player = 7;
+  repeated PlayerDescription players = 8;
+  repeated CreatureDescription creatures = 9;
+}
+
+message TileDescription {
+  required int32 groundId = 1;
+  repeated int32 items = 2;
 }
 
 message CreatureRespawnPacket {
@@ -74,17 +84,17 @@ message CreatureRespawnPacket {
 
 message CreatureDescription {
   required string creatureGuid = 1;
-  required int32 modelId = 2;
+  required int32 textId = 2;
   required Position creaturePosition = 3;
-  required StatsDescription stats = 4;
-  repeated SkillsDescription skills = 5;
+  //required StatsDescription stats = 4;
+  //repeated SkillsDescription skills = 5;
 }
 
 message PlayerDescription {
   required string playerGuid = 1;
   required Position playerPosition = 2;
-  required StatsDescription stats = 3;
-  repeated SkillsDescription skills = 4;
+  //required StatsDescription stats = 3;
+  //repeated SkillsDescription skills = 4;
 }
 
 message StatsDescription {

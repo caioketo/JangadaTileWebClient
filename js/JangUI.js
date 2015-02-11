@@ -28,11 +28,16 @@ JangUI.prototype.CreateCharList = function (chars) {
         $('<option value="' + chars[i].id + '">' + chars[i].name + '</option>').appendTo(this.charListSelect);
     }
     $('</select>').appendTo(this.charListSelect);
-    this.charListSelect.selectmenu();
+    //this.charListSelect.selectmenu();
     this.charListSelect.appendTo(this.charListDiv);
     $('<input name="connect" type="button" onclick="charSel()" value="LOGIN"/>').appendTo(this.charListDiv);
     this.charListDiv.appendTo(this.body);
 };
+
+JangUI.prototype.CreateCanvas = function () {
+    this.charListDiv.hide();
+    $('<canvas id="main" width="1024" height="640"></canvas>').appendTo(this.body);
+}
 
 function connectBtn() {
     client.Login(jangUI.loginText[0].value, jangUI.passwordText[0].value);

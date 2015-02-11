@@ -12,6 +12,12 @@ Parser.Parse = function (alchemy, data) {
                 jangUI.CreateCharList(characterList);
                 //messageHelper.SendCharacterSelect(alchemy, characterList[0].id);
                 break;
+            case 3:
+                var areaDescription = inMessages[i].areaDescriptionPacket;
+                map.SetTiles(areaDescription);
+                jangUI.CreateCanvas();
+                client.Draw();
+                break;
         }
     }
 };

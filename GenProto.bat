@@ -1,3 +1,3 @@
-..\GoogleProtobuf\tools\protogen .\protos\Networkmessage.proto --proto_path=.\protos
-copy .\Networkmessage.cs ..\JangadaTileServer\JangadaTileServer\Networkmessage.cs
+..\GoogleProtobuf\tools\protogen .\res\Networkmessage.proto --proto_path=.\
+copy .\Networkmessage.cs ..\JangadaTileServer\JangadaTileServer\Network\Networkmessage.cs
 del .\NetworkMessage.cs
