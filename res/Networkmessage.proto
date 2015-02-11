@@ -1,0 +1,127 @@
+message Networkmessage {
+  enum Type {
+    LOGIN = 0;
+	CHARACTERS = 1;
+	SELECTEDCHAR = 2;
+	AREA_DESCRIPTION = 3;
+	REQUEST_MOVEMENT = 4;
+	PLAYER_MOVEMENT = 5;
+	PLAYER_LOGIN = 6;
+	CHARACTER_MOVEMENT = 7;
+	PLAYER_LOGOUT = 8;
+	CREATURE_RESPAWN = 9;
+  }
+
+  required Type type = 1;
+  optional LoginPacket loginPacket = 2;
+  optional CharactersPacket charactersPacket = 3;
+  optional SelectCharacterPacket selectCharacterPacket = 4;
+  optional AreaDescriptionPacket areaDescriptionPacket = 5;
+  optional RequestMovementPacket requestMovementPacket = 6;
+  optional PlayerMovementPacket playerMovementPacket = 7;
+  optional PlayerLoginPacket playerLoginPacket = 8;
+  optional CharacterMovementPacket characterMovementPacket = 9;
+  optional PlayerLogoutPacket playerLogoutPacket = 10;
+  optional CreatureRespawnPacket creatureRespawnPacket = 11;
+}
+ 
+message LoginPacket {
+  required string login = 1;
+  required string password = 2;
+}
+
+message Character {
+  required int32 id = 1;
+  required string name = 2;
+  required string info = 3;
+}
+
+message CharactersPacket {
+  repeated Character CharacterList = 1;
+}
+
+message SelectCharacterPacket {
+  required int32 id = 1;
+}
+
+message Position {
+  required int32 x = 1;
+  required int32 y = 2;
+  required int32 z = 3;
+}
+
+message RequestMovementPacket {
+  enum MovementType {
+    FORWARD = 1;
+	BACKWARD = 2;
+	LEFT = 3;
+	RIGHT = 4;
+  }
+
+  required MovementType movementType = 1;
+}
+
+message AreaDescriptionPacket {
+  required int32 areaId = 1;
+  required PlayerDescription player = 2;
+  repeated PlayerDescription players = 3;
+  repeated CreatureDescription creatures = 4;
+}
+
+message CreatureRespawnPacket {
+  required CreatureDescription creatureDescription = 1;
+};
+
+message CreatureDescription {
+  required string creatureGuid = 1;
+  required int32 modelId = 2;
+  required Position creaturePosition = 3;
+  required StatsDescription stats = 4;
+  repeated SkillsDescription skills = 5;
+}
+
+message PlayerDescription {
+  required string playerGuid = 1;
+  required Position playerPosition = 2;
+  required StatsDescription stats = 3;
+  repeated SkillsDescription skills = 4;
+}
+
+message StatsDescription {
+  required int32 CONS = 1;
+  required int32 STR = 2;
+  required int32 INT = 3;
+  required int32 WIS = 4;
+  required int32 DEX = 5;
+
+  required int32 HP = 6;
+  required int32 MP = 7;
+}
+
+message SkillsDescription {
+  required string Name = 1;
+  required int32 TextureId = 2;
+  required float CoolDown = 3;
+  required float Distance = 4;
+  required bool AutoCast = 5;
+}
+
+message PlayerLoginPacket {
+  required PlayerDescription player = 1;
+}
+
+message PlayerMovementPacket {
+  required Position newPosition = 1;
+}
+
+message CharacterMovementPacket {
+  required PlayerDescription player = 1;
+}
+
+message Messages {
+  repeated Networkmessage Networkmessage = 1;
+}
+
+message PlayerLogoutPacket {
+  required string playerGuid = 1;
+}
