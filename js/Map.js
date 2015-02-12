@@ -27,6 +27,31 @@ Map.prototype.SetTiles = function (data) {
     }
 }
 
+Map.prototype.SetMapSlice = function (data) {
+    player.SetPosition(data.newPosition);
+    var i = 0;
+    for (var x = data.mapSlice.startX; x < data.mapSlice.endX + 1; x++) {
+        for (var y = data.mapSlice.startY; y < data.mapSlice.endY + 1; y++) {
+            var tileDesc = data.mapSlice.tiles[i];
+            var tile = new Tile(new Position(x, y, 1));
+            tile.Ground = new Item(tileDesc.groundId);
+            if (typeof this.tiles[x] === 'undefined' || this.tiles[x] == null) {
+                this.tiles[x] = [];
+            }
+            this.tiles[x][y] = tile;
+            i++;
+        }
+    }
+    var nullMem = player.Position.x + 20;
+    for (var n = nullMem; n < nullMem + 5; n++) {
+        this.tiles[n] = null;
+    }
+    nullMem = player.Position.x - 20;
+    for (var n = nullMem; n > nullMem - 5; n--) {
+        this.tiles[n] = null;
+    }
+}
+
 
 
 
@@ -50,5 +75,9 @@ var Tile = function (position) {
 
 var Player = function (guid, position) {
     this.Guid = guid;
+    this.Position = position;
+}
+
+Player.prototype.SetPosition = function (position) {
     this.Position = position;
 }

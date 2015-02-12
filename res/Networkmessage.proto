@@ -52,8 +52,8 @@ message Position {
 
 message RequestMovementPacket {
   enum MovementType {
-    FORWARD = 1;
-	BACKWARD = 2;
+    UP = 1;
+	DOWN = 2;
 	LEFT = 3;
 	RIGHT = 4;
   }
@@ -122,6 +122,15 @@ message PlayerLoginPacket {
 
 message PlayerMovementPacket {
   required Position newPosition = 1;
+  required MapSliceDescription mapSlice = 2;
+}
+
+message MapSliceDescription {
+  required int32 startX = 1;
+  required int32 endX = 2;
+  required int32 startY = 3;
+  required int32 endY = 4;
+  repeated TileDescription tiles = 5;
 }
 
 message CharacterMovementPacket {
