@@ -11,9 +11,10 @@ Map.prototype.SetTiles = function (data) {
     this.height = data.height;
     this.startX = data.startX;
     this.startY = data.startY;
+    player = new Player(data.player.playerGuid, data.player.playerPosition);
     var i = 0;
-    for (var x = data.startX; x < data.startX + 26; x++) {
-        for (var y = data.startY; y < data.startY + 38; y++) {
+    for (var x = data.startX; x < data.startX + 38; x++) {
+        for (var y = data.startY; y < data.startY + 26; y++) {
             var tileDesc = data.tiles[i];
             var tile = new Tile(new Position(x, y, 1));
             tile.Ground = new Item(tileDesc.groundId);
@@ -47,3 +48,7 @@ var Tile = function (position) {
 }
 
 
+var Player = function (guid, position) {
+    this.Guid = guid;
+    this.Position = position;
+}
