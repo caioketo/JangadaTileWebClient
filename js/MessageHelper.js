@@ -27,7 +27,6 @@ MessageHelper.prototype.SendLogin = function (alchemy, user, password) {
     }));
 
     var buffer = messages.encode();
-    console.log(buffer.toBase64());
     alchemy.Send(buffer.toBase64());
 };
 
@@ -43,7 +42,6 @@ MessageHelper.prototype.SendSelectChar = function (alchemy, charId) {
     }));
 
     var buffer = messages.encode();
-    console.log(buffer.toBase64());
     alchemy.Send(buffer.toBase64());
 };
 
@@ -59,6 +57,5 @@ MessageHelper.prototype.SendRequestMovement = function (alchemy, direction) {
     }));
 
     var buffer = messages.encode();
-    console.log(buffer.toBase64());
     alchemy.Send(buffer.toBase64());
 };

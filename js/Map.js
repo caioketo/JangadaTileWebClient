@@ -2,6 +2,7 @@
     this.width = 0;
     this.height = 0;
     this.tiles = [];
+    this.Creatures = [];
 }
 
 
@@ -11,7 +12,6 @@ Map.prototype.SetTiles = function (data) {
     this.height = data.height;
     this.startX = data.startX;
     this.startY = data.startY;
-    player = new Player(data.player.playerGuid, data.player.playerPosition);
     var i = 0;
     for (var x = data.startX; x < data.startX + 38; x++) {
         for (var y = data.startY; y < data.startY + 26; y++) {
@@ -24,6 +24,10 @@ Map.prototype.SetTiles = function (data) {
             this.tiles[x][y] = tile;
             i++;
         }
+    }
+    player = new Player(data.player.playerGuid, data.player.playerPosition, data.player.name, data.speed);
+    for (var p = 0; p < data.players.length; p++) {
+        map.AddCreature(data.players[p]);
     }
 }
 
@@ -52,7 +56,21 @@ Map.prototype.SetMapSlice = function (data) {
     }
 }
 
+Map.prototype.AddCreature = function (data) {
+    var creature = new Creature(data.playerGuid, data.playerPosition, data.name, data.speed);
+    creature.Tile = map.tiles[data.playerPosition.x][data.playerPosition.y];
+    map.tiles[data.playerPosition.x][data.playerPosition.y].Creatures[0] = creature;
+    map.Creatures.push(creature);
+}
 
+Map.prototype.GetCreature = function (guid) {
+    for (var i = 0; i < map.Creatures.length; i++) {
+        if (map.Creatures[i].Guid == guid) {
+            return map.Creatures[i];
+        }
+    }
+    return null;
+}
 
 
 
@@ -70,14 +88,39 @@ var Tile = function (position) {
     this.Position = position;
     this.Ground;
     this.Items = [];
+    this.Creatures = [];
 }
 
 
-var Player = function (guid, position) {
+
+
+var Creature = function (guid, position, name, speed) {
     this.Guid = guid;
     this.Position = position;
+    this.Tile = map.tiles[this.Position.x][this.Position.y];
+    this.Name = name;
+    this.Sprite = new CreatureSprite(this);
+    this.Speed = speed;
+}
+
+Creature.prototype.SetPosition = function (position) {
+    this.Position = position;
+    map.tiles[this.Position.x][this.Position.y].Creatures.push(this);
+}
+
+var Player = function (guid, position, name, speed) {
+    this.Guid = guid;
+    this.Position = position;
+    this.Tile = map.tiles[this.Position.x][this.Position.y];
+    this.Name = name;
+    this.Sprite = new CreatureSprite(this);
+    this.Speed = speed;
 }
 
 Player.prototype.SetPosition = function (position) {
     this.Position = position;
+}
+
+Player.prototype.Move = function (direction) {
+    this.Sprite.Move(direction);
 }

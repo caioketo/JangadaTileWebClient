@@ -92,7 +92,9 @@ message CreatureDescription {
 
 message PlayerDescription {
   required string playerGuid = 1;
-  required Position playerPosition = 2;
+  required string name = 2;
+  required Position playerPosition = 3;
+  required int32 speed = 4;
   //required StatsDescription stats = 3;
   //repeated SkillsDescription skills = 4;
 }

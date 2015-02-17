@@ -24,6 +24,16 @@ Parser.Parse = function (alchemy, data) {
             case 5:
                 map.SetMapSlice(inMessages[i].playerMovementPacket);
                 break;
+            case 6:
+                map.AddCreature(inMessages[i].playerLoginPacket.player);
+                break;
+            case 7:
+                var creature = map.GetCreature(inMessages[i].characterMovementPacket.player.playerGuid);
+                var tile = map.tiles[creature.Position.x][creature.Position.y];
+                var index = tile.Creatures.indexOf(creature);
+                tile.Creatures.splice(index, 1);
+                creature.SetPosition(inMessages[i].characterMovementPacket.player.playerPosition);
+                break;
         }
     }
 };

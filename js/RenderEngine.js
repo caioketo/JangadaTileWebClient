@@ -6,7 +6,7 @@
     this.imageNumTiles = 16;
     this.tilesetImage = new Image();
     this.playerImage = new Image();
-    this.playerImage.src = 'res/player.jpg';
+    this.playerImage.src = 'res/c1.png';
     this.tilesetImage.src = 'res/tileset.png';
     this.sX = 0;
     this.sY = 0;
@@ -26,18 +26,22 @@ function doKeyDown(e) {
     var keyCode = e.which;
     //LEFT
     if (keyCode == 37) {
+        player.Move('LEFT');
         messageHelper.SendRequestMovement(AlchemyChatServer, "LEFT");
     }
         //UP
     else if (keyCode == 38) {
+        player.Move('UP');
         messageHelper.SendRequestMovement(AlchemyChatServer, "UP");
     }
         //RIGHT
     else if (keyCode == 39) {
+        player.Move('RIGHT');
         messageHelper.SendRequestMovement(AlchemyChatServer, "RIGHT");
     }
         //DOWN
     else if (keyCode == 40) {
+        player.Move('DOWN');
         messageHelper.SendRequestMovement(AlchemyChatServer, "DOWN");
     }
 };
@@ -57,8 +61,8 @@ function onClickCanvas(e) {
     }
     x -= renderEngine.canvas.offsetLeft;
     y -= renderEngine.canvas.offsetTop;
-    var tileX = Math.floor(x / 32) + sX;
-    var tileY = Math.floor(y / 32) + sY;
+    var tileX = Math.floor(x / 32) + renderEngine.sX;
+    var tileY = Math.floor(y / 32) + renderEngine.sY;
     //alert('x: ' + tileX + ' - y: ' + tileY);
 };
 
@@ -74,15 +78,22 @@ function drawImage() {
                 //ctx.fill();
             }
             else {
-                var tile = map.tiles[c][r].Ground.Id;
-                var tileRow = (tile / renderEngine.imageNumTiles) | 0; // Bitwise OR operation
-                var tileCol = (tile % renderEngine.imageNumTiles) | 0;
+                var tile = map.tiles[c][r];
+                var ground = tile.Ground.Id;
+                var tileRow = (ground / renderEngine.imageNumTiles) | 0; // Bitwise OR operation
+                var tileCol = (ground % renderEngine.imageNumTiles) | 0;
                 renderEngine.ctx.drawImage(renderEngine.tilesetImage, (tileCol * renderEngine.tileSize),
                     (tileRow * renderEngine.tileSize), renderEngine.tileSize, renderEngine.tileSize,
                     ((c - renderEngine.sX) * renderEngine.tileSize), ((r - renderEngine.sY) * renderEngine.tileSize), renderEngine.tileSize, renderEngine.tileSize);
+
+                if (tile.Creatures.length > 0) {
+                    tile.Creatures[0].Sprite.Draw(renderEngine.ctx, ((c - renderEngine.sX) * renderEngine.tileSize), ((r - renderEngine.sY) * renderEngine.tileSize));
+                }
+
                 if (c == player.Position.x && r == player.Position.y) {
-                    renderEngine.ctx.drawImage(renderEngine.playerImage, 0, 0, renderEngine.tileSize, renderEngine.tileSize,
-                        ((c - renderEngine.sX) * renderEngine.tileSize), ((r - renderEngine.sY) * renderEngine.tileSize), renderEngine.tileSize, renderEngine.tileSize);
+                    player.Sprite.Draw(renderEngine.ctx, ((c - renderEngine.sX) * renderEngine.tileSize), ((r - renderEngine.sY) * renderEngine.tileSize));
+                    //renderEngine.ctx.drawImage(renderEngine.playerImage, 0, 0, renderEngine.tileSize, renderEngine.tileSize,
+                        //((c - renderEngine.sX) * renderEngine.tileSize), ((r - renderEngine.sY) * renderEngine.tileSize), renderEngine.tileSize, renderEngine.tileSize);
                 }
             }
         }
