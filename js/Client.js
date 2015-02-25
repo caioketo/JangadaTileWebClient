@@ -2,6 +2,7 @@
 var messageHelper = new MessageHelper();
 var jangUI;
 var map = new Map();
+var camera;
 var renderEngine = new RenderEngine();
 var player;
 var Client = function () {

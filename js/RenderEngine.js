@@ -63,13 +63,13 @@ function onClickCanvas(e) {
     y -= renderEngine.canvas.offsetTop;
     var tileX = Math.floor(x / 32) + renderEngine.sX;
     var tileY = Math.floor(y / 32) + renderEngine.sY;
-    //alert('x: ' + tileX + ' - y: ' + tileY);
 };
 
 
 function drawImage() {
     requestAnimationFrame(drawImage);
-    renderEngine.sX = player.Position.x - (renderEngine.rowTileCount / 2);
+    camera.draw(renderEngine.ctx);
+    /*renderEngine.sX = player.Position.x - (renderEngine.rowTileCount / 2);
     renderEngine.sY = player.Position.y - (renderEngine.colTileCount / 2);
     for (var r = renderEngine.sY; r < renderEngine.sY + renderEngine.colTileCount; r++) {
         for (var c = renderEngine.sX; c < renderEngine.sX + renderEngine.rowTileCount; c++) {
@@ -97,5 +97,5 @@ function drawImage() {
                 }
             }
         }
-    }
+    }*/
 }

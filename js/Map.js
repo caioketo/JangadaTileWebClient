@@ -25,14 +25,18 @@ Map.prototype.SetTiles = function (data) {
             i++;
         }
     }
-    player = new Player(data.player.playerGuid, data.player.playerPosition, data.player.name, data.speed);
+    player = new Player(data.player.playerGuid, data.player.playerPosition, data.player.name, data.player.speed);
     for (var p = 0; p < data.players.length; p++) {
         map.AddCreature(data.players[p]);
     }
+    camera = new Camera();
+    camera.create(32, 20, player);
 }
 
 Map.prototype.SetMapSlice = function (data) {
     player.SetPosition(data.newPosition);
+    this.startX = data.mapSlice.startX;
+    this.startY = data.mapSlice.startY;
     var i = 0;
     for (var x = data.mapSlice.startX; x < data.mapSlice.endX + 1; x++) {
         for (var y = data.mapSlice.startY; y < data.mapSlice.endY + 1; y++) {
@@ -46,13 +50,8 @@ Map.prototype.SetMapSlice = function (data) {
             i++;
         }
     }
-    var nullMem = player.Position.x + 20;
-    for (var n = nullMem; n < nullMem + 5; n++) {
-        this.tiles[n] = null;
-    }
-    nullMem = player.Position.x - 20;
-    for (var n = nullMem; n > nullMem - 5; n--) {
-        this.tiles[n] = null;
+    if (typeof camera != 'undefined') {
+        camera.fullMap.update();
     }
 }
 
@@ -61,6 +60,9 @@ Map.prototype.AddCreature = function (data) {
     creature.Tile = map.tiles[data.playerPosition.x][data.playerPosition.y];
     map.tiles[data.playerPosition.x][data.playerPosition.y].Creatures[0] = creature;
     map.Creatures.push(creature);
+    if (typeof camera != 'undefined') {
+        camera.fullMap.update();
+    }
 }
 
 Map.prototype.GetCreature = function (guid) {

@@ -21,10 +21,12 @@
     this.animations = animations;
     this.currentAnimation = {
         y: 0,
-        length: 5
+        length: 0
     };
-    this.currentFrame = 0;
+    this.currentFrame = 0;  
     this.moving = false;
+    this.stepX = 0;
+    this.stepY = 0;
 };
 
 CreatureSprite.prototype.Move = function (direction) {
@@ -47,12 +49,16 @@ CreatureSprite.prototype.Move = function (direction) {
     this.stepX = 0;
     this.stepY = 0;
     this.moving = true;
-    setInterval(this.nextFrame, this.Creature.Speed * 10, this);
+    if (typeof this.interval != 'undefined') {
+        clearInterval(this.interval);
+    }
+    this.interval = setInterval(this.nextFrame, this.Creature.Speed * 10, this);
 }
 
 CreatureSprite.prototype.nextFrame = function (csprite) {
     if (csprite.currentFrame + 1 == csprite.currentAnimation.length) {
-        csprite.moving = 0;
+        csprite.moving = false;
+        clearInterval(csprite.interval);
     }
     csprite.currentFrame = (csprite.currentFrame + 1) % csprite.currentAnimation.length;
     csprite.stepX += csprite.iStepX;
@@ -63,8 +69,8 @@ CreatureSprite.prototype.Draw = function (context, x, y) {
     var renderX = x;
     var renderY = y;
     if (this.moving) {
-        renderX -= this.stepX;
-        renderY -= this.stepY;
+        //renderX -= this.stepX;
+        //renderY -= this.stepY;
     }
     context.drawImage(this.Texture, this.currentFrame * renderEngine.tileSize, this.currentAnimation.y * renderEngine.tileSize,
         renderEngine.tileSize, renderEngine.tileSize, renderX, renderY, renderEngine.tileSize, renderEngine.tileSize);
