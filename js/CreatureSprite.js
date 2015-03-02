@@ -1,4 +1,5 @@
-﻿var CreatureSprite = function (creature) {
+﻿//TODO Colocar img em TextureAtlas, e usar o textureId da criatura;
+var CreatureSprite = function (creature) {
     this.Creature = creature;
     this.Texture = renderEngine.playerImage;
     var animations = [];

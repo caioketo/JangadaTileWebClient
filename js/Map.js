@@ -27,7 +27,7 @@ Map.prototype.SetTiles = function (data) {
     }
     player = new Player(data.player.playerGuid, data.player.playerPosition, data.player.name, data.player.speed);
     for (var p = 0; p < data.players.length; p++) {
-        map.AddCreature(data.players[p]);
+        map.AddPlayer(data.players[p]);
     }
     camera = new Camera();
     camera.create(32, 20, player);
@@ -55,10 +55,21 @@ Map.prototype.SetMapSlice = function (data) {
     }
 }
 
-Map.prototype.AddCreature = function (data) {
-    var creature = new Creature(data.playerGuid, data.playerPosition, data.name, data.speed);
+Map.prototype.AddPlayer = function (data) {
+    var creature = new Player(data.playerGuid, data.playerPosition, data.name, data.speed);
     creature.Tile = map.tiles[data.playerPosition.x][data.playerPosition.y];
     map.tiles[data.playerPosition.x][data.playerPosition.y].Creatures[0] = creature;
+    map.Creatures.push(creature);
+    if (typeof camera != 'undefined') {
+        camera.fullMap.update();
+    }
+}
+
+Map.prototype.AddCreature = function (data) {
+    //TODO Speed
+    var creature = new Creature(data.creatureGuid, data.creaturePosition, data.name, 1);
+    creature.Tile = map.tiles[data.creaturePosition.x][data.creaturePosition.y];
+    map.tiles[data.creaturePosition.x][data.creaturePosition.y].Creatures[0] = creature;
     map.Creatures.push(creature);
     if (typeof camera != 'undefined') {
         camera.fullMap.update();
@@ -96,9 +107,10 @@ var Tile = function (position) {
 
 
 
-var Creature = function (guid, position, name, speed) {
+var Creature = function (guid, position, name, speed, textId) {
     this.Guid = guid;
     this.Position = position;
+    this.TextureId = textId;
     this.Tile = map.tiles[this.Position.x][this.Position.y];
     this.Name = name;
     this.Sprite = new CreatureSprite(this);
@@ -121,6 +133,7 @@ var Player = function (guid, position, name, speed) {
 
 Player.prototype.SetPosition = function (position) {
     this.Position = position;
+    map.tiles[this.Position.x][this.Position.y].Creatures.push(this);
 }
 
 Player.prototype.Move = function (direction) {
