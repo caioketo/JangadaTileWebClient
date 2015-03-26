@@ -41,6 +41,10 @@ Parser.Parse = function (alchemy, data) {
                 var creatureDesc = inMessages[i].creatureRespawnPacket.creatureDescription;
                 map.AddCreature(creatureDesc);
                 break;
+            //NOT_POSSIBLE
+            case 10:
+                console.log('not possible');
+                break;
         }
     }
 };

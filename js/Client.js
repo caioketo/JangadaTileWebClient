@@ -17,16 +17,27 @@ Modernizr.load({
 // Set URL of your WebSocketMain.swf here, for web-socket-js
 WEB_SOCKET_SWF_LOCATION = 'js/web-socket-js/WebSocketMain.swf';
 WEB_SOCKET_DEBUG = true;
+IS_LOCAL = true;
 
 var AlchemyChatServer = {};
 var me = {};
 Client.prototype.Start = function () {
-    AlchemyChatServer = new Alchemy({
-        Server: '127.0.0.1',
-        Port: '81',
-        Action: 'chat',
-        DebugMode: true
-    });
+    if (IS_LOCAL) {
+        AlchemyChatServer = new Alchemy({
+            Server: '127.0.0.1',
+            Port: '81',
+            Action: 'chat',
+            DebugMode: true
+        });
+    }
+    else {
+        AlchemyChatServer = new Alchemy({
+            Server: 'jangadaserver.no-ip.info',
+            Port: '81',
+            Action: 'chat',
+            DebugMode: true
+        });
+    }
 
     AlchemyChatServer.Connected = function () {
         console.log('Connection established!');

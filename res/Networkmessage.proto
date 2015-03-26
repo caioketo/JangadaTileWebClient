@@ -10,6 +10,7 @@ message Networkmessage {
 	CHARACTER_MOVEMENT = 7;
 	PLAYER_LOGOUT = 8;
 	CREATURE_RESPAWN = 9;
+	NOT_POSSIBLE = 10;
   }
 
   required Type type = 1;

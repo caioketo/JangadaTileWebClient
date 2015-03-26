@@ -127,11 +127,14 @@ var Player = function (guid, position, name, speed) {
     this.Position = position;
     this.Tile = map.tiles[this.Position.x][this.Position.y];
     this.Name = name;
+    this.TextureId = 0;
     this.Sprite = new CreatureSprite(this);
     this.Speed = speed;
 }
 
 Player.prototype.SetPosition = function (position) {
+    var index = map.tiles[this.Position.x][this.Position.y].Creatures.indexOf(this);
+    map.tiles[this.Position.x][this.Position.y].Creatures.splice(index, 1);
     this.Position = position;
     map.tiles[this.Position.x][this.Position.y].Creatures.push(this);
 }

@@ -19,8 +19,6 @@
         //mapY += this.player.Sprite.stepY;
         var mapW = 32 * renderEngine.tileSize;
         var mapH = 20 * renderEngine.tileSize;
-        console.log('SpriteStep: x: ' + this.player.Sprite.stepX + ' - y: ' + this.player.Sprite.stepY);
-        console.log('ViewArea: x: ' + mapX + ' - y: ' + mapY + ' - w: ' + mapW + ' - h: ' + mapH);
         context.drawImage(this.fullMap.cvsHdl, mapX, mapY, mapW, mapH, 0, 0, mapW, mapH);
     }
 });

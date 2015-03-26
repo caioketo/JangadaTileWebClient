@@ -24,6 +24,10 @@ var CreatureSprite = function (creature) {
         y: 0,
         length: 0
     };
+    this.tileSetPos = {
+        x: 0,
+        y: creature.TextureId * (4 * renderEngine.tileSize)
+    };
     this.currentFrame = 0;  
     this.moving = false;
     this.stepX = 0;
@@ -31,7 +35,7 @@ var CreatureSprite = function (creature) {
 };
 
 CreatureSprite.prototype.Move = function (direction) {
-    this.currentAnimation = this.animations[direction];
+    /*this.currentAnimation = this.animations[direction];
     this.currentFrame = 0;
     this.iStepX = Math.floor((renderEngine.tileSize / this.currentAnimation.length));
     this.iStepY = Math.floor((renderEngine.tileSize / this.currentAnimation.length));
@@ -53,7 +57,7 @@ CreatureSprite.prototype.Move = function (direction) {
     if (typeof this.interval != 'undefined') {
         clearInterval(this.interval);
     }
-    this.interval = setInterval(this.nextFrame, this.Creature.Speed * 10, this);
+    this.interval = setInterval(this.nextFrame, this.Creature.Speed * 10, this);*/
 }
 
 CreatureSprite.prototype.nextFrame = function (csprite) {
@@ -73,7 +77,7 @@ CreatureSprite.prototype.Draw = function (context, x, y) {
         //renderX -= this.stepX;
         //renderY -= this.stepY;
     }
-    context.drawImage(this.Texture, this.currentFrame * renderEngine.tileSize, this.currentAnimation.y * renderEngine.tileSize,
+    context.drawImage(this.Texture, this.currentFrame * renderEngine.tileSize, (this.currentAnimation.y * renderEngine.tileSize) + this.tileSetPos.y,
         renderEngine.tileSize, renderEngine.tileSize, renderX, renderY, renderEngine.tileSize, renderEngine.tileSize);
     var textX = renderX + 3;
     var textY = renderY - 5;

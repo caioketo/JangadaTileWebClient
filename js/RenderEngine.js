@@ -5,6 +5,7 @@
     this.colTileCount = 20;
     this.imageNumTiles = 16;
     this.tilesetImage = new Image();
+    this.creatureTileset = new Image();
     this.playerImage = new Image();
     this.playerImage.src = 'res/c1.png';
     this.tilesetImage.src = 'res/tileset.png';
@@ -69,33 +70,4 @@ function onClickCanvas(e) {
 function drawImage() {
     requestAnimationFrame(drawImage);
     camera.draw(renderEngine.ctx);
-    /*renderEngine.sX = player.Position.x - (renderEngine.rowTileCount / 2);
-    renderEngine.sY = player.Position.y - (renderEngine.colTileCount / 2);
-    for (var r = renderEngine.sY; r < renderEngine.sY + renderEngine.colTileCount; r++) {
-        for (var c = renderEngine.sX; c < renderEngine.sX + renderEngine.rowTileCount; c++) {
-            if (c < 0 || r < 0) {
-                //ctx.rect(((c - sX) * tileSize), ((r - sY) * tileSize), tileSize, tileSize);
-                //ctx.fill();
-            }
-            else {
-                var tile = map.tiles[c][r];
-                var ground = tile.Ground.Id;
-                var tileRow = (ground / renderEngine.imageNumTiles) | 0; // Bitwise OR operation
-                var tileCol = (ground % renderEngine.imageNumTiles) | 0;
-                renderEngine.ctx.drawImage(renderEngine.tilesetImage, (tileCol * renderEngine.tileSize),
-                    (tileRow * renderEngine.tileSize), renderEngine.tileSize, renderEngine.tileSize,
-                    ((c - renderEngine.sX) * renderEngine.tileSize), ((r - renderEngine.sY) * renderEngine.tileSize), renderEngine.tileSize, renderEngine.tileSize);
-
-                if (tile.Creatures.length > 0) {
-                    tile.Creatures[0].Sprite.Draw(renderEngine.ctx, ((c - renderEngine.sX) * renderEngine.tileSize), ((r - renderEngine.sY) * renderEngine.tileSize));
-                }
-
-                if (c == player.Position.x && r == player.Position.y) {
-                    player.Sprite.Draw(renderEngine.ctx, ((c - renderEngine.sX) * renderEngine.tileSize), ((r - renderEngine.sY) * renderEngine.tileSize));
-                    //renderEngine.ctx.drawImage(renderEngine.playerImage, 0, 0, renderEngine.tileSize, renderEngine.tileSize,
-                        //((c - renderEngine.sX) * renderEngine.tileSize), ((r - renderEngine.sY) * renderEngine.tileSize), renderEngine.tileSize, renderEngine.tileSize);
-                }
-            }
-        }
-    }*/
 }
