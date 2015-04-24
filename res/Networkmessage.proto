@@ -11,6 +11,7 @@ message Networkmessage {
 	PLAYER_LOGOUT = 8;
 	CREATURE_RESPAWN = 9;
 	NOT_POSSIBLE = 10;
+	CREATURE_MOVEMENT = 11;
   }
 
   required Type type = 1;
@@ -24,6 +25,7 @@ message Networkmessage {
   optional CharacterMovementPacket characterMovementPacket = 9;
   optional PlayerLogoutPacket playerLogoutPacket = 10;
   optional CreatureRespawnPacket creatureRespawnPacket = 11;
+  optional CreatureMovementPacket creatureMovementPacket = 12;
 }
  
 message LoginPacket {
@@ -87,6 +89,7 @@ message CreatureDescription {
   required string creatureGuid = 1;
   required int32 textId = 2;
   required Position creaturePosition = 3;
+  required string name = 4;
   //required StatsDescription stats = 4;
   //repeated SkillsDescription skills = 5;
 }
@@ -138,6 +141,10 @@ message MapSliceDescription {
 
 message CharacterMovementPacket {
   required PlayerDescription player = 1;
+}
+
+message CreatureMovementPacket {
+  required CreatureDescription creature = 1;
 }
 
 message Messages {

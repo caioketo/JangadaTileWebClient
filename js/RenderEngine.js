@@ -1,4 +1,9 @@
-﻿var RenderEngine = function () {
+﻿var dragging = false;
+var clicked = false;
+var clickedTile;
+
+
+var RenderEngine = function () {
     renderEngine = this;
     this.tileSize = 32;
     this.rowTileCount = 32;
@@ -18,7 +23,9 @@ RenderEngine.prototype.Start = function (canvas) {
     this.canvas.tabIndex = 1000;
     this.canvas.style.outline = "none";
     this.canvas.addEventListener('keydown', doKeyDown, false);
-    this.canvas.addEventListener('click', onClickCanvas, false);
+    this.canvas.addEventListener('mousedown', onClickCanvas, false);
+    this.canvas.addEventListener('mousemove', onMouseMove, false);
+    this.canvas.addEventListener('mouseup', onMouseUp, false);
     this.ctx = this.canvas.getContext('2d');
     drawImage();
 }
@@ -48,6 +55,11 @@ function doKeyDown(e) {
 };
 
 function onClickCanvas(e) {
+    clickedTile = getMouseTile(e);
+    clicked = true;
+}
+
+function getMouseTile(e) {
     e = e || window.event;
 
     var x;
@@ -64,10 +76,31 @@ function onClickCanvas(e) {
     y -= renderEngine.canvas.offsetTop;
     var tileX = Math.floor(x / 32) + renderEngine.sX;
     var tileY = Math.floor(y / 32) + renderEngine.sY;
+    return {
+        x: tileX,
+        y: tileY
+    }
+}
+
+function onMouseMove(e) {
+    var tile = getMouseTile(e);
+    if (clicked) {
+        dragging = true;
+        renderEngine.canvas.style.cursor = 'crosshair';
+    }
 };
+
+function onMouseUp(e) {
+    var tile = getMouseTile(e);
+    clickedTile = {};
+    clicked = false;
+    dragging = false;
+    renderEngine.canvas.style.cursor = 'initial';
+}
 
 
 function drawImage() {
     requestAnimationFrame(drawImage);
     camera.draw(renderEngine.ctx);
+    battleWindow.Draw();
 }

@@ -70,7 +70,8 @@ CreatureSprite.prototype.nextFrame = function (csprite) {
     csprite.stepY += csprite.iStepY;
 };
 
-CreatureSprite.prototype.Draw = function (context, x, y) {
+CreatureSprite.prototype.Draw = function (context, x, y, battle) {
+    var inBattle = battle || false;
     var renderX = x;
     var renderY = y;
     if (this.moving) {
@@ -81,6 +82,10 @@ CreatureSprite.prototype.Draw = function (context, x, y) {
         renderEngine.tileSize, renderEngine.tileSize, renderX, renderY, renderEngine.tileSize, renderEngine.tileSize);
     var textX = renderX + 3;
     var textY = renderY - 5;
+    if (inBattle) {
+        textX = renderX + 5;
+        textY = renderY + 5;
+    }
     context.font = '8pt Sans-serif';
     context.strokeStyle = 'black';
     context.lineWidth = 2;

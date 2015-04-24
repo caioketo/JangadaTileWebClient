@@ -29,14 +29,17 @@ Map.prototype.SetTiles = function (data) {
     for (var p = 0; p < data.players.length; p++) {
         map.AddPlayer(data.players[p]);
     }
+    for (var c = 0; c < data.creatures.length; c++) {
+        map.AddCreature(data.creatures[c]);
+    }
     camera = new Camera();
     camera.create(32, 20, player);
 }
 
 Map.prototype.SetMapSlice = function (data) {
     player.SetPosition(data.newPosition);
-    this.startX = data.mapSlice.startX;
-    this.startY = data.mapSlice.startY;
+    //this.startX = data.mapSlice.startX;
+    //this.startY = data.mapSlice.startY;
     var i = 0;
     for (var x = data.mapSlice.startX; x < data.mapSlice.endX + 1; x++) {
         for (var y = data.mapSlice.startY; y < data.mapSlice.endY + 1; y++) {
@@ -50,9 +53,6 @@ Map.prototype.SetMapSlice = function (data) {
             i++;
         }
     }
-    if (typeof camera != 'undefined') {
-        camera.fullMap.update();
-    }
 }
 
 Map.prototype.AddPlayer = function (data) {
@@ -60,9 +60,6 @@ Map.prototype.AddPlayer = function (data) {
     creature.Tile = map.tiles[data.playerPosition.x][data.playerPosition.y];
     map.tiles[data.playerPosition.x][data.playerPosition.y].Creatures[0] = creature;
     map.Creatures.push(creature);
-    if (typeof camera != 'undefined') {
-        camera.fullMap.update();
-    }
 }
 
 Map.prototype.AddCreature = function (data) {
@@ -71,9 +68,6 @@ Map.prototype.AddCreature = function (data) {
     creature.Tile = map.tiles[data.creaturePosition.x][data.creaturePosition.y];
     map.tiles[data.creaturePosition.x][data.creaturePosition.y].Creatures[0] = creature;
     map.Creatures.push(creature);
-    if (typeof camera != 'undefined') {
-        camera.fullMap.update();
-    }
 }
 
 Map.prototype.GetCreature = function (guid) {
@@ -83,6 +77,17 @@ Map.prototype.GetCreature = function (guid) {
         }
     }
     return null;
+}
+
+Map.prototype.CreaturesInViewArea = function (pos) {
+    var creaturesInView = [];
+
+    for (var i = 0; i < map.Creatures.length; i++) {
+        if (map.Creatures[i].IsVisible(pos) && map.Creatures[i].Guid !== player.Guid) {
+            creaturesInView.push(map.Creatures[i])
+        }
+    }
+    return creaturesInView;
 }
 
 
@@ -110,7 +115,7 @@ var Tile = function (position) {
 var Creature = function (guid, position, name, speed, textId) {
     this.Guid = guid;
     this.Position = position;
-    this.TextureId = textId;
+    this.TextureId = 0;
     this.Tile = map.tiles[this.Position.x][this.Position.y];
     this.Name = name;
     this.Sprite = new CreatureSprite(this);
@@ -120,6 +125,12 @@ var Creature = function (guid, position, name, speed, textId) {
 Creature.prototype.SetPosition = function (position) {
     this.Position = position;
     map.tiles[this.Position.x][this.Position.y].Creatures.push(this);
+}
+
+Creature.prototype.IsVisible = function (position) {
+    return (position.x >= this.Position.x - 16 && position.x <= this.Position.x + 16 &&
+                position.y >= this.Position.y - 10 && position.y <= this.Position.y + 10 &&
+                position.z == this.Position.z);
 }
 
 var Player = function (guid, position, name, speed) {
@@ -141,4 +152,11 @@ Player.prototype.SetPosition = function (position) {
 
 Player.prototype.Move = function (direction) {
     this.Sprite.Move(direction);
+}
+
+
+Player.prototype.IsVisible = function (position) {
+    return (position.x >= this.Position.x - 19 && position.x <= this.Position.x + 19 &&
+                position.y >= this.Position.y - 13 && position.y <= this.Position.y + 13 &&
+                position.z == this.Position.z);
 }

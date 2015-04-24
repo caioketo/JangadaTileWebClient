@@ -45,6 +45,14 @@ Parser.Parse = function (alchemy, data) {
             case 10:
                 console.log('not possible');
                 break;
+            //CREATURE_MOVEMENT
+            case 11:
+                var creature = map.GetCreature(inMessages[i].creatureMovementPacket.creature.creatureGuid);
+                var tile = map.tiles[creature.Position.x][creature.Position.y];
+                var index = tile.Creatures.indexOf(creature);
+                tile.Creatures.splice(index, 1);
+                creature.SetPosition(inMessages[i].creatureMovementPacket.creature.creaturePosition);
+                break;
         }
     }
 };

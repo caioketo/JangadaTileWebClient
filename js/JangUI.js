@@ -37,6 +37,7 @@ JangUI.prototype.CreateCharList = function (chars) {
 JangUI.prototype.CreateCanvas = function () {
     this.charListDiv.hide();
     $('<canvas id="main" width="1024" height="640"></canvas>').appendTo(this.body);
+    $('<div id="dialog" title="Battle Window"><canvas id="battle" width="100" height="640"></canvas></div>').appendTo(this.body);
 }
 
 function connectBtn() {

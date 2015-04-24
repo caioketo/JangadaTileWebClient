@@ -4,6 +4,7 @@ var jangUI;
 var map = new Map();
 var camera;
 var renderEngine = new RenderEngine();
+var battleWindow;
 var player;
 var Client = function () {
     jangUI = new JangUI($('body'));
@@ -69,7 +70,8 @@ Client.prototype.SelectChar = function (charId) {
 
 Client.prototype.Draw = function () {    
     canvas = document.getElementById('main');
-    renderEngine.Start(canvas);
+    battleWindow = new BattleWindow();
+    renderEngine.Start(canvas);    
 }
 
 client = new Client();
